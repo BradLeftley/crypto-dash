@@ -6,8 +6,8 @@ import 'antd/dist/antd.css';
 
 
 const EXCHANGE_RATES = gql`
-    query MarketTicker {
-    markets(marketSymbol:"Binance:XRP/USDT") {
+    query MarketTicker($marketSymbol: String!) {
+    markets(marketSymbol: $marketSymbol) {
         ticker {
         percentChange
         lastPrice
@@ -21,8 +21,10 @@ const EXCHANGE_RATES = gql`
 `;
 
 function PriceCard(props) {
-    const { value } = props;
-    const { loading, error, data } = useQuery(EXCHANGE_RATES);
+    const { value, marketSymbol, title } = props;
+    const { loading, error, data } = useQuery(EXCHANGE_RATES,{
+        variables: { marketSymbol },
+      });
 
     console.log(data)
     if (loading) return <p>Loading...</p>;
@@ -32,7 +34,7 @@ function PriceCard(props) {
 
         <Card >
             <Statistic
-            title="Active"
+            title={title}
             value={data.markets[0].ticker.lastPrice}
             precision={2}
             valueStyle={{ color: '#3f8600' }}
