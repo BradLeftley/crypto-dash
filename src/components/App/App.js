@@ -9,10 +9,10 @@ function App() {
       <div className="site-statistic-demo-card">
     <Row gutter={16} justify="center">
       <Col span={4}>
-        <PriceCard value={11.28} name="Dash" marketSymbol="Binance:XRP/USDT"/>
+        <PriceCard value={11.28} name="Dash" marketSymbol="Binance:dash/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28} name="Xrp" marketSymbol="Binance:dash/USDT"/>
+        <PriceCard value={11.28} name="Xrp" marketSymbol="Binance:XRP/USDT"/>
       </Col>
       <Col span={4}>
         <PriceCard value={11.28} name="Zcash" marketSymbol="Binance:ZEC/USDT"/>

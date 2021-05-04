@@ -1,5 +1,5 @@
 import { Statistic, Card } from 'antd';
-import { ArrowUpOutlined } from '@ant-design/icons';
+import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 import { useQuery, gql } from '@apollo/client';
 import xrp from './xrp.png'
 import eos from './eos.png'
@@ -30,22 +30,21 @@ function PriceCard(props) {
     const { loading, error, data } = useQuery(EXCHANGE_RATES,{
         variables: { marketSymbol },
       });
-
-    console.log(name, data.markets[0].ticker)
-    if (loading) return <p>Loading...</p>;
     if (error) return <p>Error :(</p>;
-
+    const isNegative = data?.markets[0].ticker.percentChange.includes('-');
     return (
         <Card >
             {IconFinder(name)}
             <Statistic
             title={name}
-            value={data.markets[0].ticker.percentChange}
+            value={data?.markets[0].ticker.percentChange}
             precision={2}
-            valueStyle={{ color: '#3f8600' }}
-            prefix={<ArrowUpOutlined />}
+            valueStyle={isNegative? { color: '#cf1322' } : { color: '#3f8600' }}
+            prefix={isNegative?  <ArrowDownOutlined /> : <ArrowUpOutlined /> }
             suffix="%"
+            loading={loading}
             />
+            <Statistic  value={data?.markets[0].ticker.lastPrice} prefix="$" precision={2} loading={loading} />
         </Card>
     );
 }
