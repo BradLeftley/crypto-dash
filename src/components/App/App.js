@@ -1,5 +1,4 @@
-import { Statistic, Card, Row, Col } from 'antd';
-import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+import {  Row, Col } from 'antd';
 import PriceCard from '../PriceCard'
 import './App.css';
 import 'antd/dist/antd.css';
@@ -8,21 +7,21 @@ function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
-    <Row gutter={16 } justify="center">
+    <Row gutter={16} justify="center">
       <Col span={4}>
-        <PriceCard value={11.28} title="Dash" marketSymbol="Binance:XRP/USDT"/>
+        <PriceCard value={11.28} name="Dash" marketSymbol="Binance:XRP/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28} title="Xrp" marketSymbol="Binance:dash/USDT"/>
+        <PriceCard value={11.28} name="Xrp" marketSymbol="Binance:dash/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28} title="Zcash" marketSymbol="Binance:ZEC/USDT"/>
+        <PriceCard value={11.28} name="Zcash" marketSymbol="Binance:ZEC/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28} title="Eos" marketSymbol="Binance:EOS/USDT"/>
+        <PriceCard value={11.28} name="Eos" marketSymbol="Binance:EOS/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28} title="Bitcoin Cash" marketSymbol="Binance:EOS/USDT"/>
+        <PriceCard value={11.28} name="Bitcoin Cash" marketSymbol="Binance:EOS/USDT"/>
       </Col>
     </Row>
   </div>
