@@ -8,12 +8,21 @@ function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
-    <Row gutter={16 } justify="center">
+    <Row gutter={16} justify="center">
       <Col span={4}>
-        <PriceCard value={11.28}/>
+        <PriceCard value={11.28} name='XRP'/>
       </Col>
       <Col span={4}>
-        <PriceCard value={11.28}/>
+        <PriceCard value={11.28} name='zcash'/>
+      </Col>
+      <Col span={4}>
+        <PriceCard value={11.28} name='eos'/>
+      </Col>
+      <Col span={4}>
+        <PriceCard value={11.28} name='bch'/>
+      </Col>
+      <Col span={4}>
+        <PriceCard value={11.28} name='dash'/>
       </Col>
     </Row>
   </div>

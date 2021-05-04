@@ -12,6 +12,10 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+.image {
+  height: 2.5rem;
+  width: 2.5rem;
+}
 
 .site-statistic-demo-card {
   padding: 10px;
