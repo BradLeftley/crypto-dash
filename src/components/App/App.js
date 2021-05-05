@@ -2,11 +2,13 @@ import {  Row, Col } from 'antd';
 import PriceCard from '../PriceCard'
 import './App.css';
 import 'antd/dist/antd.css';
+import News from '../News';
 
 function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
+        <h1>Cypto</h1>
     <Row gutter={16} justify="center">
       <Col span={4}>
         <PriceCard  name="Dash" marketSymbol="Binance:dash/USDT"/>
@@ -25,6 +27,8 @@ function App() {
       </Col>
     </Row>
   </div>
+
+  <News />
     </div>
   );
 }
