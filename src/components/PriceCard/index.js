@@ -1,5 +1,6 @@
-import { Statistic, Card } from 'antd';
+import { Statistic, Card, Carousel } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
+
 import { useQuery, gql } from '@apollo/client';
 import GoalIndicator from '../GoalIndicator'
 import xrp from './xrp.png'
@@ -30,11 +31,11 @@ const EXCHANGE_RATES = gql`
     // Will move to component
 
     const coinsData = [
-        {name: 'Xrp', image: xrp, target: 10},
-        {name: 'Eos', image: eos, target: 94},
-        {name: 'Zcash', image: zcash, target: 2544},
-        {name: 'Dash', image: dash, target: 3300},
-        {name: 'Bitcoin Cash', image: bch, target: 3300},
+        {name: 'Xrp', image: xrp, target: [10, 55]},
+        {name: 'Eos', image: eos, target: [94,354]},
+        {name: 'Zcash', image: zcash, target: [2544, 4000,6600]},
+        {name: 'Dash', image: dash, target: [3300,6700,28480]},
+        {name: 'Bitcoin Cash', image: bch, target: [94,18312,76720]},
     ]
 
 function PriceCard(props) {
@@ -58,7 +59,11 @@ function PriceCard(props) {
             loading={loading}
             />
             <Statistic  value={data?.markets[0].ticker.lastPrice} prefix="$" precision={2} loading={loading} />
-            <GoalIndicator currentPrice={data?.markets[0].ticker.lastPrice} targetPrice={coin.target} />
+            <Carousel >
+            {coin.target.map((target, index) => (
+                    <GoalIndicator currentPrice={data?.markets[0].ticker.lastPrice} targetPrice={target} />
+                ))}       
+            </Carousel>
         </Card>
     );
 }

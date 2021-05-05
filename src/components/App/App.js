@@ -23,7 +23,7 @@ function App() {
         <PriceCard  name="Eos" marketSymbol="Binance:EOS/USDT"/>
       </Col>
       <Col span={4}>
-        <PriceCard name="Bitcoin Cash" marketSymbol="Binance:EOS/USDT"/>
+        <PriceCard name="Bitcoin Cash" marketSymbol="Kraken:EOS/USD"/>
       </Col>
     </Row>
   </div>

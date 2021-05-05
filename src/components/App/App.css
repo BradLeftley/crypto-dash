@@ -44,3 +44,13 @@
   padding: 10px;
   background: #ececec;
 }
+
+.ant-carousel .slick-dots li button {
+  background: rgba(163, 163, 163, 0.85);
+  opacity: 0.4;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  opacity: 1;
+  background: rgba(163, 163, 163, 0.85);
+}

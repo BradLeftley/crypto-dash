@@ -26,9 +26,10 @@ function News() {
   
     if (error) {
       return <div>Error: {error.message}</div>;
-    } else if (!isLoaded) {
+    }  
+    if (!isLoaded) {
       return <div>Loading...</div>;
-    } else {
+    }  
         console.log(items)
         return (
             <div className="container">
@@ -46,7 +47,7 @@ function News() {
     />
   }
   actions={[
-    <ReadOutlined key="read"  />,
+    <ReadOutlined onClick={()=>{window.open(item.url)}} key="read"  />,
     <EditOutlined key="edit" />,
     <EllipsisOutlined key="ellipsis"  />,
   ]}
@@ -64,7 +65,7 @@ function News() {
 
       );
     }
-  }
+  
 
 
 export default News;
