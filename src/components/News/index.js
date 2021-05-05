@@ -34,10 +34,10 @@ function News() {
         return (
             <div className="container">
                 <h1>News</h1>
-                <Row>
+                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
 
           {items.map(item => (
-              <Col span={8}>
+              <Col className="gutter-row" span={6}>
   <Card
   style={{ width: 300 }}
   cover={
