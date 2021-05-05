@@ -1,4 +1,4 @@
-import { Statistic, Card, Carousel } from 'antd';
+import { Statistic, Card, Carousel, Divider } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 import { useQuery, gql } from '@apollo/client';
@@ -59,9 +59,14 @@ function PriceCard(props) {
             loading={loading}
             />
             <Statistic  value={data?.markets[0].ticker.lastPrice} prefix="$" precision={2} loading={loading} />
+            <Divider style={{ margin: '17px 0' }}/>
+            
             <Carousel >
             {coin.target.map((target, index) => (
+                    <div>
+                    <Statistic title="Price Target" value={target} prefix="$" precision={0} loading={loading} />
                     <GoalIndicator currentPrice={data?.markets[0].ticker.lastPrice} targetPrice={target} />
+                    </div>
                 ))}       
             </Carousel>
         </Card>
