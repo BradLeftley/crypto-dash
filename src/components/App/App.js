@@ -3,6 +3,7 @@ import PriceCard from '../PriceCard'
 import './App.css';
 import 'antd/dist/antd.css';
 import News from '../News';
+const style = {margin: 'auto', padding: '8px 0' };
 
 function App() {
   return (
@@ -27,7 +28,6 @@ function App() {
       </Col>
     </Row>
   </div>
-
   <News />
     </div>
   );

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Card } from 'antd';
 import { Row, Col } from 'antd';
 import { EditOutlined, EllipsisOutlined, ReadOutlined } from '@ant-design/icons';
+import BlockchainBacker from '../BlockchainBacker';
 const { Meta } = Card;
 
 function News() {
@@ -35,7 +36,9 @@ function News() {
             <div className="container">
                 <h1>News</h1>
                 <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-
+            <Col className='gutter-row' span={6}>
+            <BlockchainBacker />
+            </Col>
           {items.map(item => (
               <Col className="gutter-row" span={6}>
   <Card
