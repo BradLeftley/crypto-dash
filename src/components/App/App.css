@@ -28,6 +28,10 @@
   color: #61dafb;
 }
 
+.container {
+  margin: 5rem;
+}
+
 @keyframes App-logo-spin {
   from {
     transform: rotate(0deg);
@@ -35,4 +39,18 @@
   to {
     transform: rotate(360deg);
   }
+}
+.site-statistic-demo-card {
+  padding: 10px;
+  background: #ececec;
+}
+
+.ant-carousel .slick-dots li button {
+  background: rgba(163, 163, 163, 0.85);
+  opacity: 0.4;
+}
+
+.ant-carousel .slick-dots li.slick-active button {
+  opacity: 1;
+  background: rgba(163, 163, 163, 0.85);
 }
