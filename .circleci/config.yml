@@ -1,7 +1,7 @@
   version: 2.1
-    orbs:
+  orbs:
       aws-s3: circleci/aws-s3@1.0.11
-    jobs:
+  jobs:
       build:
         docker:
           - image: circleci/node:12.9.1-browsers
