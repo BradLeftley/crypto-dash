@@ -25,11 +25,7 @@
                 - ~/.cache
               key: v1-dependencies-{{ checksum "package.json" }}
     
-          - run: yarn lint
-    
           - run: yarn size
-    
-          - run: yarn test
     
           - run: yarn build
     
