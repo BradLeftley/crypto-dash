@@ -8,6 +8,7 @@ import eos from './eos.png'
 import zcash from './zec.png'
 import bch from './bch.png'
 import dash from './dash.png'
+import doge from './doge.png'
 import 'antd/dist/antd.css';
 
 
@@ -36,6 +37,7 @@ const EXCHANGE_RATES = gql`
         {name: 'Zcash', image: zcash, target: [2544, 4000,6600]},
         {name: 'Dash', image: dash, target: [3300,6700,28480]},
         {name: 'Bitcoin Cash', image: bch, target: [94,18312,76720]},
+        {name: 'Doge', image: doge, target: [1,10,50]},
     ]
 
 function PriceCard(props) {

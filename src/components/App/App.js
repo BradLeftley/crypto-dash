@@ -26,6 +26,9 @@ function App() {
       <Col span={4}>
         <PriceCard name="Bitcoin Cash" marketSymbol="Kraken:EOS/USD"/>
       </Col>
+      <Col span={4}>
+        <PriceCard name="Doge" marketSymbol="Binance:DOGE/USDT"/>
+      </Col>
     </Row>
   </div>
   <News />
