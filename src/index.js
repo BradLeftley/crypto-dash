@@ -7,7 +7,6 @@ import reportWebVitals from './reportWebVitals';
 import { ApolloClient, createHttpLink, InMemoryCache,ApolloProvider } from '@apollo/client';
 
 import { setContext } from '@apollo/client/link/context';
-import { gql } from '@apollo/client';
 
 const httpLink = createHttpLink({
   uri: 'api.blocktap.io/graphql',

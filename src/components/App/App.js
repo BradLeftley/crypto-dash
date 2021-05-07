@@ -3,6 +3,7 @@ import PriceCard from '../PriceCard'
 import './App.css';
 import 'antd/dist/antd.css';
 import News from '../News';
+import BarGraph from '../PotentialBarGraph';
 const style = {margin: 'auto', padding: '8px 0' };
 
 function App() {
@@ -31,6 +32,8 @@ function App() {
       </Col>
     </Row>
   </div>
+  
+    <BarGraph />
   <News />
     </div>
   );
