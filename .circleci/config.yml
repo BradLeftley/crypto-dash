@@ -6,7 +6,7 @@
         docker:
           - image: circleci/node:12.9.1-browsers
     
-        working_directory: ~/crypto-dash
+        working_directory: ~/repo
     
         steps:
           - checkout
@@ -25,11 +25,13 @@
                 - ~/.cache
               key: v1-dependencies-{{ checksum "package.json" }}
     
+          - run: yarn size
+    
           - run: yarn build
     
           - aws-s3/sync:
               from: build
-              to: "s3://crypto-dash.bradleyleftley.co.uk/"
+              to: "s3://kriss-react-cicd/"
               arguments: |
                 --acl public-read \
                 --cache-control "max-age=86400"
