@@ -1,95 +1,43 @@
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:12.9.1-browsers
-version: 2
+version: 2.1
+orbs:
+  node: circleci/node@1.1.6
+  aws-s3: circleci/aws-s3@1.0.15
 jobs:
-  checkout_code:
-    <<: *defaults
+  test-and-build:
+    executor:
+      name: node/default
     steps:
-      - restore_cache:
-          keys:
-            - source-{{ .Branch }}-{{ .Revision }}
-            - source-{{ .Branch }}-
-            - source-
-
       - checkout
-
-      - save_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - "~/repo"
-  install:
-    <<: *defaults
-    steps:
-      - restore_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: "Yarn install"
-          command: yarn install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-
-  build:
-    <<: *defaults
-    steps:
-      - restore_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: "Build app"
-          command: npm run build
+      - node/with-cache:
+          steps:
+            - run: npm install
+            - run: npm test
+      - run: npm run build
       - persist_to_workspace:
-          root: ~/repo
+          root: ~/
           paths:
-            - dist
-            - package.json
-  deploy:
-    <<: *defaults
-    environment:
-      - PRODUCTION_BUCKET: crypto-dash.bradleyleftley.co.uk
-  
+            - project/build
+  deploy-to-s3:
+    machine:
+      image: circleci/classic:latest
     steps:
+      - checkout
       - attach_workspace:
-          at: ~/repo
+          at: ~/
       - aws-s3/sync:
-        from: build
-        to: "s3://crypto-dash.bradleyleftley.co.uk/"
-        arguments: |
-          --acl public-read \
-          --cache-control "max-age=86400"
-        overwrite: true      
-      # - run: sudo apt-get update && sudo apt-get install -y python-dev
-      # - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
-      # - run: sudo python get-pip.py
-      # - run: sudo pip install awscli --upgrade
-      # - run: aws --version
-      # - run: aws s3 ls
-      # - run: 
-      #     name: "Deploy to S3"
-      #     command: |
-      #       if [ "${CIRCLE_BRANCH}" == "master" ]; then
-      #         aws s3 sync dist/ s3://${PRODUCTION_BUCKET} --delete
-      #       fi
+          arguments: |
+            --acl public-read \
+            --cache-control "max-age=86400"
+          from: build
+          to: 's3://crypto-dash.bradleyleftley.co.uk'
+          overwrite: true # default is false
 workflows:
-  version: 2
-  build_and_test:
+  build-and-deploy:
     jobs:
-      - checkout_code
-      - install:
+      - test-and-build
+      - deploy-to-s3:
           requires:
-            - checkout_code
-      # - test:
-      #     requires:
-      #       - install
-      - build:
-          requires:
-            - install
-      - deploy:
-          requires:
-            - build
+            - test-and-build
+          filters:
+            branches:
+              only: master
