@@ -29,7 +29,7 @@ jobs:
             --cache-control "max-age=86400"
           from: build
           to: 's3://crypto-dash.bradleyleftley.co.uk'
-          overwrite: true # default is false
+
 workflows:
   build-and-deploy:
     jobs:
