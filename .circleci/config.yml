@@ -1,70 +1,66 @@
-version: 2
+version: 2.1
+
 orbs:
-    cypress: cypress-io/cypress@1
-    aws-s3: circleci/aws-s3@1.0.0
+  aws-cli: circleci/aws-cli@1.3.0
 
-############################
+executors:
+  default:
+    docker:
+      - image: circleci/node:current
+
+commands:
+  install-dependencies:
+    steps:
+      - run: npm install .
+      - run: cd infrastructure && npm install .
+  cache-dependencies:
+    steps:
+      - save_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+          paths:
+            - ./node_modules
+            - ./infrastructure/node_modules
+  restore-dependencies:
+    steps:
+      - restore_cache:
+          key: dependency-cache-{{ checksum "package.json" }}
+  build-app:
+    steps:
+      - run: npm run build
+  deploy-app:
+    steps:
+      - run: cd infrastructure && npm run deploy
+
 jobs:
-  # Run Cypress Tests
-  # Deploy to the staging S3 bucket
-  deploy-staging:
-    docker:
-      - image: circleci/node:12.8.0-buster
-    working_directory: ~/repo
+  build:
+    executor: default
     steps:
       - checkout
-      - run: npm install
-      - run: npm run test
-
-      # setup stuff for AWS CLI deploy
-      - run: sudo apt-get update && sudo apt-get install -y python-dev
-      - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
-      - run: sudo python get-pip.py
-      - run: sudo pip install awscli --upgrade
-      - run: aws --version
-      - run: aws s3 ls
-
-      - run: env REACT_APP_ENV='STAGING' npm run deploy
-
-  # Deploy to the production S3 bucket
-  deploy-prod:
-    docker:
-      - image: circleci/node:12.8.0-buster
-    working_directory: ~/repo
+      - restore-dependencies
+      - install-dependencies
+      - cache-dependencies
+      - build-app
+      - persist_to_workspace:
+          root: ~/
+          paths: project/build
+  deploy:
+    executor: aws-cli/default
     steps:
       - checkout
-      - run: npm install
-      - run: npm run test
+      - restore-dependencies
+      - install-dependencies
+      - cache-dependencies
+      - attach_workspace:
+          at: ~/
+      - aws-cli/setup
+      - deploy-app
 
-      # setup stuff for AWS CLI deploy
-      - run: sudo apt-get update && sudo apt-get install -y python-dev
-      - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
-      - run: sudo python get-pip.py
-      - run: sudo pip install awscli --upgrade
-      - run: aws --version
-      - run: aws s3 ls
-
-      - run: env REACT_APP_ENV='PRODUCTION' npm run deploy
-
-############################
 workflows:
   version: 2
-  test-build-deploy:
+  ci-master:
     jobs:
-      - test-cypress:
-          filters:
-            branches:
-              ignore: # only test pushes/pulls to staging and master
-                - develop
-                - /feature-.*/
-                - /bug-.*/
-      - deploy-staging:
-          filters:
-            branches:
-              only: staging
-      - deploy-prod:
+      - build
+      - deploy:
+          context: aws-account
           requires:
-            - test-cypress # don't deploy unless tests pass
-          filters:
-            branches:
-              only: master
+            - build
