@@ -1,66 +1,42 @@
 version: 2.1
-
-orbs:
-  aws-cli: circleci/aws-cli@1.3.0
-
-executors:
-  default:
-    docker:
-      - image: circleci/node:current
-
-commands:
-  install-dependencies:
-    steps:
-      - run: npm install .
-      - run: cd infrastructure && npm install .
-  cache-dependencies:
-    steps:
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - ./node_modules
-            - ./infrastructure/node_modules
-  restore-dependencies:
-    steps:
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-  build-app:
-    steps:
-      - run: npm run build
-  deploy-app:
-    steps:
-      - run: cd infrastructure && npm run deploy
-
-jobs:
-  build:
-    executor: default
-    steps:
-      - checkout
-      - restore-dependencies
-      - install-dependencies
-      - cache-dependencies
-      - build-app
-      - persist_to_workspace:
-          root: ~/
-          paths: project/build
-  deploy:
-    executor: aws-cli/default
-    steps:
-      - checkout
-      - restore-dependencies
-      - install-dependencies
-      - cache-dependencies
-      - attach_workspace:
-          at: ~/
-      - aws-cli/setup
-      - deploy-app
-
-workflows:
-  version: 2
-  ci-master:
+    orbs:
+      aws-s3: circleci/aws-s3@1.0.11
     jobs:
-      - build
-      - deploy:
-          context: aws-account
-          requires:
-            - build
+      build:
+        docker:
+          - image: circleci/node:12.9.1-browsers
+    
+        working_directory: ~/repo
+    
+        steps:
+          - checkout
+    
+          - restore_cache:
+              keys:
+                - v1-dependencies-{{ checksum "package.json" }}
+                # fallback to using the latest cache if no exact match is found
+                - v1-dependencies-
+          - run: yarn install
+    
+          - save_cache:
+              paths:
+                - node_modules
+                - ~/.npm
+                - ~/.cache
+              key: v1-dependencies-{{ checksum "package.json" }}
+    
+          - run: yarn lint
+    
+          - run: yarn size
+    
+          - run: yarn test
+    
+          - run: yarn build
+    
+          - aws-s3/sync:
+              from: build
+              to: "s3://crypto-dash.bradleyleftley.co.uk/"
+              arguments: |
+                --acl public-read \
+                --cache-control "max-age=86400"
+              overwrite: true
