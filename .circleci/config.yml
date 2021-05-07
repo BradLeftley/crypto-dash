@@ -37,12 +37,12 @@
             arguments: |
               --acl public-read \
               --cache-control "max-age=86400"
-            aws-access-key-id: AWS_ACCESS_KEY_ID_BLUE
-            aws-region: AWS_REGION_BLUE
-            aws-secret-access-key: AWS_SECRET_ACCESS_KEY_BLUE
+            aws-access-key-id: $AWS_ACCESS_KEY_ID
+            aws-region: $AWS_REGION
+            aws-secret-access-key: $AWS_SECRET_ACCESS_KEY
             from: bucket
-            to: 's3://my-s3-bucket-name/prefix'
+            to: 's3://crypto-dash.bradleyleftley.co.uk/prefix'
          - aws-s3/copy:
             arguments: '--dryrun'
             from: bucket/build_asset.txt
-            to: 's3://my-s3-bucket-name'
+            to: 's3://crypto-dash.bradleyleftley.co.uk'
