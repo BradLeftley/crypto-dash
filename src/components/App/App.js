@@ -4,30 +4,29 @@ import './App.css';
 import 'antd/dist/antd.css';
 import News from '../News';
 import BarGraph from '../PotentialBarGraph';
-const style = {margin: 'auto', padding: '8px 0' };
 
 function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
         <h1>Cypto</h1>
-    <Row gutter={16} justify="center">
-      <Col span={4}>
+    <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 },16]} justify="center">
+      <Col  xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard  name="Dash" marketSymbol="Binance:dash/USDT"/>
       </Col>
-      <Col span={4}>
+      <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard  name="Xrp" marketSymbol="Binance:XRP/USDT"/>
       </Col>
-      <Col span={4}>
+      <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard  name="Zcash" marketSymbol="Binance:ZEC/USDT"/>
       </Col>
-      <Col span={4}>
+      <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard  name="Eos" marketSymbol="Binance:EOS/USDT"/>
       </Col>
-      <Col span={4}>
+      <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard name="Bitcoin Cash" marketSymbol="Kraken:EOS/USD"/>
       </Col>
-      <Col span={4}>
+      <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard name="Doge" marketSymbol="Binance:DOGE/USDT"/>
       </Col>
     </Row>
