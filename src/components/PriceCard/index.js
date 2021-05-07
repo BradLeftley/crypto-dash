@@ -3,12 +3,12 @@ import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
 
 import { useQuery, gql } from '@apollo/client';
 import GoalIndicator from '../GoalIndicator'
-import xrp from './xrp.png'
-import eos from './eos.png'
-import zcash from './zec.png'
-import bch from './bch.png'
-import dash from './dash.png'
-import doge from './doge.png'
+import xrp from '../../assets/xrp.png'
+import eos from '../../assets/eos.png'
+import zcash from '../../assets/zec.png'
+import bch from '../../assets/bch.png'
+import dash from '../../assets/dash.png'
+import doge from '../../assets/doge.png'
 import 'antd/dist/antd.css';
 
 
