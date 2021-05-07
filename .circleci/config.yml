@@ -1,93 +1,70 @@
-defaults: &defaults
-  working_directory: ~/repo
-  docker:
-    - image: circleci/node:10.11
 version: 2
+orbs:
+    cypress: cypress-io/cypress@1
+    aws-s3: circleci/aws-s3@1.0.0
+
+############################
 jobs:
-  checkout_code:
-    <<: *defaults
+  # Run Cypress Tests
+  # Deploy to the staging S3 bucket
+  deploy-staging:
+    docker:
+      - image: circleci/node:12.8.0-buster
+    working_directory: ~/repo
     steps:
-      - restore_cache:
-          keys:
-            - source-{{ .Branch }}-{{ .Revision }}
-            - source-{{ .Branch }}-
-            - source-
-
       - checkout
+      - run: npm install
+      - run: npm run test
 
-      - save_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-          paths:
-            - "~/repo"
-  install:
-    <<: *defaults
-    steps:
-      - restore_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: "Yarn install"
-          command: yarn install
-      - save_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-          paths:
-            - node_modules
-
-  build:
-    <<: *defaults
-    steps:
-      - restore_cache:
-          key: source-{{ .Branch }}-{{ .Revision }}
-      - restore_cache:
-          key: dependency-cache-{{ checksum "package.json" }}
-      - run:
-          name: "Build app"
-          command: npm run build
-      - persist_to_workspace:
-          root: ~/repo
-          paths:
-            - dist
-            - package.json
-  deploy:
-    <<: *defaults
-    environment:
-      - STAGING_BUCKET: YOUR_STAGING_BUCKET_NAME
-      - PRODUCTION_BUCKET: crypto-dash.bradleyleftley.co.uk
-      - STAGING_DISTRIBUTION_ID: YOUR_STAGING_DISTRIBUTION_ID
-      - PRODUCTION_DISTRIBUTION_ID: YOUR_PRODUCTION_DISTRIBUTION_ID
-    steps:
-      - attach_workspace:
-          at: ~/repo
+      # setup stuff for AWS CLI deploy
       - run: sudo apt-get update && sudo apt-get install -y python-dev
       - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
       - run: sudo python get-pip.py
       - run: sudo pip install awscli --upgrade
       - run: aws --version
       - run: aws s3 ls
-      - run: 
-          name: "Deploy to S3"
-          command: |
-            if [ "${CIRCLE_BRANCH}" == "master" ]; then
-              aws s3 sync dist/ s3://${PRODUCTION_BUCKET} --delete
-            elif [ "${CIRCLE_BRANCH}" == "develop" ]; then
-              aws s3 sync dist/ s3://${STAGING_BUCKET} --delete
-              aws cloudfront create-invalidation --distribution-id "${STAGING_DISTREBUTION_ID}" --paths /index.html
-            fi
+
+      - run: env REACT_APP_ENV='STAGING' npm run deploy
+
+  # Deploy to the production S3 bucket
+  deploy-prod:
+    docker:
+      - image: circleci/node:12.8.0-buster
+    working_directory: ~/repo
+    steps:
+      - checkout
+      - run: npm install
+      - run: npm run test
+
+      # setup stuff for AWS CLI deploy
+      - run: sudo apt-get update && sudo apt-get install -y python-dev
+      - run: sudo curl -O https://bootstrap.pypa.io/get-pip.py
+      - run: sudo python get-pip.py
+      - run: sudo pip install awscli --upgrade
+      - run: aws --version
+      - run: aws s3 ls
+
+      - run: env REACT_APP_ENV='PRODUCTION' npm run deploy
+
+############################
 workflows:
   version: 2
-  build_and_test:
+  test-build-deploy:
     jobs:
-      - checkout_code
-      - install:
+      - test-cypress:
+          filters:
+            branches:
+              ignore: # only test pushes/pulls to staging and master
+                - develop
+                - /feature-.*/
+                - /bug-.*/
+      - deploy-staging:
+          filters:
+            branches:
+              only: staging
+      - deploy-prod:
           requires:
-            - checkout_code
-      - test:
-          requires:
-            - install
-      - build:
-          requires:
-            - install
-      - deploy:
-          requires:
-            - build
+            - test-cypress # don't deploy unless tests pass
+          filters:
+            branches:
+              only: master
