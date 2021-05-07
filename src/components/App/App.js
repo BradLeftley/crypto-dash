@@ -31,7 +31,7 @@ function App() {
       </Col>
     </Row>
   </div>
-  <News />
+  {/* <News /> */}
     </div>
   );
 }
