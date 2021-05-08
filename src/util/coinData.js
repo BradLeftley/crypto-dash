@@ -10,17 +10,17 @@ const coinsData = [
     {name: 'Eos', image: eos, target: [94,354]},
     {name: 'Zcash', image: zcash, target: [2544, 4000,6600]},
     {name: 'Dash', image: dash, target: [3300,6700,28480]},
+    {name: 'Bitcoin Cash', image: bch, target: [10500,18312,76720]},
+    {name: 'Dogecoin', image: doge, target: [1,10,50]},
 ];
 
 export const getCoinsGraphData = (index, priceData) =>{
     return coinsData.map((item)=>{
-        if(priceData[item.name]){
-            const percentage = (((item.target[index] - priceData[item.name][0].ticker.lastPrice)/priceData[item.name][0].ticker.lastPrice)*100)
+            const coinData = priceData.filter((coin)=>coin.name.toLowerCase() === item.name.toLowerCase())
+            const percentage = (((item.target[index] - coinData[0].current_price)/coinData[0].current_price)*100)
             const roundedPercent = Math.round((percentage + Number.EPSILON) * 100) / 100;
-            console.log(item.target[index], priceData[item.name][0].ticker.lastPrice, roundedPercent)
-            return { name: item.name, percentage: roundedPercent, color: "red"}
-        }
-        return null;
+            return { name: item.name, percentage: roundedPercent}
+        
     })
 }
 
