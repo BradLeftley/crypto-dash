@@ -40,11 +40,11 @@ function News() {
             <div className="container">
                 <h1>News</h1>
                 <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 },16]} >
-            <Col className='gutter-row' xs={16} sm={12} md={8} lg={8} xl={4}>
+            <Col className='gutter-row' xs={16} sm={12} md={8} lg={8} xl={6}>
             <BlockchainBacker />
             </Col>
           {items.map(item => (
-              <Col className="gutter-row"   xs={16} sm={12} md={8} lg={8} xl={4}>
+              <Col className="gutter-row"   xs={16} sm={12} md={8} lg={8} xl={6}>
   <Card
   style={{ width: 300 }}
   extra={fetchName(item)}
