@@ -24,7 +24,7 @@ function App() {
         <PriceCard  name="Eos" marketSymbol="Binance:EOS/USDT"/>
       </Col>
       <Col xs={16} sm={12} md={8} lg={8} xl={4}>
-        <PriceCard name="Bitcoin Cash" marketSymbol="Kraken:EOS/USD"/>
+        <PriceCard name="Bitcoin Cash" marketSymbol="bitcoin-cash" coingecko/>
       </Col>
       <Col xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard name="Doge" marketSymbol="Binance:DOGE/USDT"/>

@@ -1,6 +1,6 @@
 import { Statistic, Card, Carousel, Divider } from 'antd';
 import { ArrowUpOutlined, ArrowDownOutlined } from '@ant-design/icons';
-
+import useFetch from '../../util/useFetch'
 import { useQuery, gql } from '@apollo/client';
 import GoalIndicator from '../GoalIndicator'
 import xrp from '../../assets/xrp.png'
@@ -36,38 +36,45 @@ const EXCHANGE_RATES = gql`
         {name: 'Eos', image: eos, target: [94,354]},
         {name: 'Zcash', image: zcash, target: [2544, 4000,6600]},
         {name: 'Dash', image: dash, target: [3300,6700,28480]},
-        {name: 'Bitcoin Cash', image: bch, target: [94,18312,76720]},
+        {name: 'Bitcoin Cash', image: bch, target: [10500,18312,76720]},
         {name: 'Doge', image: doge, target: [1,10,50]},
     ]
 
+
+
 function PriceCard(props) {
-    const { value, marketSymbol, name } = props;
-    const { loading, error, data } = useQuery(EXCHANGE_RATES,{
+    const { value, marketSymbol, name, coingecko } = props;
+    const { loading, error, data } = coingecko?  // decides which api to use
+    useFetch(`https://api.coingecko.com/api/v3/coins/${marketSymbol}`) 
+    : useQuery(EXCHANGE_RATES,{
         variables: { marketSymbol },
       });
      const coin = coinsData.filter(image => image.name === name)[0] || {};
     if (error) return <p>Error :(</p>;
-    const isNegative = data?.markets[0].ticker.percentChange.includes('-');
+        
+    const percentChange = coingecko? data?.market_data.price_change_percentage_24h : data?.markets[0].ticker.percentChange;
+    const price = coingecko? data?.market_data.current_price.usd : data?.markets[0].ticker.lastPrice;
+    const isNegative = percentChange?.toString().includes("-");
     return (
         <Card >
             <img src={coin.image || ''} className="image" alt="Logo" />
             <Statistic
             title={name}
-            value={data?.markets[0].ticker.percentChange}
+            value={percentChange}
             precision={2}
             valueStyle={isNegative? { color: '#cf1322' } : { color: '#3f8600' }}
             prefix={isNegative?  <ArrowDownOutlined /> : <ArrowUpOutlined /> }
             suffix="%"
             loading={loading}
             />
-            <Statistic  value={data?.markets[0].ticker.lastPrice} prefix="$" precision={2} loading={loading} />
+            <Statistic  value={price} prefix="$" precision={2} loading={loading} />
             <Divider style={{ margin: '17px 0' }}/>
             
             <Carousel >
             {coin.target.map((target, index) => (
                     <div>
                     <Statistic title="Price Target" value={target} prefix="$" precision={0} loading={loading} />
-                    <GoalIndicator currentPrice={data?.markets[0].ticker.lastPrice} targetPrice={target} />
+                    <GoalIndicator currentPrice={price} targetPrice={target} />
                     </div>
                 ))}       
             </Carousel>
