@@ -33,7 +33,7 @@ function App() {
   </div>
   
     <BarGraph />
-  {/* <News /> */}
+  <News />
     </div>
   );
 }

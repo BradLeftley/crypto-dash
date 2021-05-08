@@ -18,6 +18,8 @@ function News() {
             setIsLoaded(true);
             if(result) {
              setItems(result.results); 
+            } else {
+              setError(error);
             }
           },
           (error) => {
@@ -68,7 +70,7 @@ function News() {
   
 
 function fetchName(item) {
-const name = item.currencies? item.currencies.map(currency => currency.code).toString() : 'General'
+const name = item.currencies ? item.currencies.map(currency => currency.code).toString() : 'General'
 
   return name
 }
