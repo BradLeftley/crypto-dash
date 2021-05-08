@@ -13,7 +13,8 @@ const createEndpoints = () =>{
 const mapOHCLdata = (item, name, targetPrice) =>{
     return item.map((data) =>{
         const percentage = (((data[1] / targetPrice))*100)
-        return {name, time: data[0],open: percentage}})
+        const roundedPercent = Math.round((percentage + Number.EPSILON) * 100) / 100;
+        return {name, time: new Date(parseInt(data[0])).toISOString().split('T')[0],open: roundedPercent}})
 }
 function GrowthChart(props) {
   const { loading, error, data } = useFetchAll(createEndpoints())
@@ -29,18 +30,7 @@ var config = {
     xField: 'time',
     yField: 'open',
     seriesField: 'name',
-    yAxis: {
-      label: {
-       
-      },
-    },
-    xAxis: {
-        label: {
-          formatter: function formatter(v) {
-            return  new Date(parseInt(v)).toISOString().split('T')[0];
-          },
-        },
-      },
+   
     legend: { position: 'top' },
     smooth: true,
     animation: {
