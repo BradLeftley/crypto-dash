@@ -11,12 +11,14 @@ function News() {
     const [items, setItems] = useState([]);
   
     useEffect(() => {
-      fetch("https://newsapi.org/v2/everything?q=cryptocurrency&apiKey=908d8c2102a046daaf340f1b9683e2d6")
+      fetch("https://cryptopanic.com/api/v1/posts/?auth_token=494c032bfd35161464f13b53e627f78f26e045fa&public=true")
         .then(res => res.json())
         .then(
           (result) => {
             setIsLoaded(true);
-            setItems(result.articles);
+            if(result) {
+             setItems(result.results); 
+            }
           },
           (error) => {
             setIsLoaded(true);
@@ -31,34 +33,29 @@ function News() {
     if (!isLoaded) {
       return <div>Loading...</div>;
     }  
+
+
         console.log(items)
         return (
             <div className="container">
                 <h1>News</h1>
-                <Row gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}>
-            <Col className='gutter-row' span={6}>
+                <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 },16]} >
+            <Col className='gutter-row' xs={16} sm={12} md={8} lg={8} xl={4}>
             <BlockchainBacker />
             </Col>
           {items.map(item => (
-              <Col className="gutter-row" span={6}>
+              <Col className="gutter-row"   xs={16} sm={12} md={8} lg={8} xl={4}>
   <Card
   style={{ width: 300 }}
-  cover={
-    <img
-      alt="example"
-      src={item.urlToImage}
-    />
-  }
+  extra={fetchName(item)}
   actions={[
     <ReadOutlined onClick={()=>{window.open(item.url)}} key="read"  />,
-    <EditOutlined key="edit" />,
-    <EllipsisOutlined key="ellipsis"  />,
   ]}
 >
     {item.source.name}
   <Meta
     title={item.title}
-    description={item.description}
+    description={item.title}
   />
 </Card>
       </Col>  ))}
@@ -70,5 +67,10 @@ function News() {
     }
   
 
+function fetchName(item) {
+const name = item.currencies && item.currencies.map(currency => currency.code).toString()
+
+  return name
+}
 
 export default News;
