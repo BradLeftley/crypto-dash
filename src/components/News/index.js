@@ -68,7 +68,7 @@ function News() {
   
 
 function fetchName(item) {
-const name = item.currencies && item.currencies.map(currency => currency.code).toString()
+const name = item.currencies? item.currencies.map(currency => currency.code).toString() : 'General'
 
   return name
 }
