@@ -4,6 +4,7 @@ import './App.css';
 import 'antd/dist/antd.css';
 import News from '../News';
 import BarGraph from '../PotentialBarGraph';
+import GrowthChart from '../GrowthChart';
 
 function App() {
   return (
@@ -33,6 +34,7 @@ function App() {
   </div>
   
     <BarGraph />
+    <GrowthChart/>
   <News />
     </div>
   );
