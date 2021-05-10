@@ -9,7 +9,7 @@ function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
-        <h1>Cypto</h1>
+        <h1>Cypto Dashboard</h1>
     <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 },16]} justify="center">
       <Col  xs={16} sm={12} md={8} lg={8} xl={4}>
         <PriceCard  name="Dash" marketSymbol="Binance:dash/USDT"/>
