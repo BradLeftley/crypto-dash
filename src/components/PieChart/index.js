@@ -28,8 +28,7 @@ const PieChart = () => {
     if (!isLoaded) {
       return <div>Loading...</div>;
     }  
-    console.log(items)
-    debugger
+
 
     const dataObj = items.map(value => {
         return {
@@ -38,32 +37,7 @@ const PieChart = () => {
         total: 12
         }
     })
-  var data = [
-    {
-      type: "g",
-      value: 27
-    },
-    {
-      type: "s",
-      value: 25
-    },
-    {
-      type: "u",
-      value: 18
-    },
-    {
-      type: "f",
-      value: 15
-    },
-    {
-      type: "t",
-      value: 10
-    },
-    {
-      type: "j",
-      value: 50
-    }
-  ];
+
   var config = {
     appendPadding: 10,
     data: dataObj,
