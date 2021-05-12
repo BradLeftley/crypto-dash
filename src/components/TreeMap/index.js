@@ -43,7 +43,7 @@ const TreeMap = () => {
     data: data,
     colorField: 'name',
   };
-  return <Card><h1 className='ant-card-head-title'>Market Cap</h1> <Treemap {...config} /></Card> ;
+  return <Card title='Market Cap'><Treemap {...config} /></Card> ;
 };
 
 export default TreeMap;
