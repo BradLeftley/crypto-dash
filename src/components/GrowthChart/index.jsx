@@ -1,11 +1,14 @@
-import React from 'react';
-import { Card } from 'antd';
-import { useFetchAll } from '../../util/useFetch'
+import React, {useState} from 'react';
+import {  Card, Button, Radio }from 'antd';
+import {useFetchAll} from '../../util/useFetch'
 import { Line } from '@ant-design/charts';
 import coinData from '../../util/coinData';
 
-const createEndpoints = () => {
-  return coinData.map(coin => `https://api.coingecko.com/api/v3/coins/${coin.id}/ohlc?vs_currency=usd&days=365`)
+
+
+
+const createEndpoints = (days) =>{
+    return coinData.map(coin=>`https://api.coingecko.com/api/v3/coins/${coin.id}/ohlc?vs_currency=usd&days=${days}`)
 }
 const mapOHCLdata = (item, name, targetPrice) => {
   return item.map((data) => {
@@ -15,13 +18,17 @@ const mapOHCLdata = (item, name, targetPrice) => {
   })
 }
 function GrowthChart(props) {
-  const { loading, error, data } = useFetchAll(createEndpoints())
+  const [timePeriod, setTimePeriod] = useState("90");
+  const { loading, error, data } = useFetchAll(createEndpoints(timePeriod),null,timePeriod);
 
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error :(</p>;
   let testData = []
   data.forEach((item, index) => testData.push(...mapOHCLdata(item, coinData[index].name, coinData[index].target[0])))
 
+   const handleSizeChange = e => {
+        setTimePeriod( e.target.value);
+    };
 
   var config = {
     data: testData,
@@ -39,8 +46,15 @@ function GrowthChart(props) {
     },
   };
   return (
-    <Card title="Percentage to Target Price">
-      <Line {...config} />
+   <Card title="Percentage to Target Price">
+       <Radio.Group value={timePeriod} onChange={handleSizeChange}>
+          <Radio.Button value="7">1W</Radio.Button>
+          <Radio.Button value="30">1M</Radio.Button>
+          <Radio.Button value="90">3M</Radio.Button>
+          <Radio.Button value="180">6M</Radio.Button>
+          <Radio.Button value="365">1Y</Radio.Button>
+        </Radio.Group>
+       <Line {...config} />
     </Card>
   );
 };
