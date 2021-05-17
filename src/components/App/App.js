@@ -37,7 +37,6 @@ function App() {
   
     <BarGraph />
     <GrowthChart/>
-    <BoxChart />
    {/* <PieChart /> */}
    
    <TreeMap />
