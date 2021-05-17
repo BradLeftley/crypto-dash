@@ -3,52 +3,55 @@ import { Pie } from '@ant-design/charts';
 import {  Card }from 'antd';
 
 const PieChart = () => {
-  var data = [
-    {
-      type: "g",
-      value: 27
-    },
-    {
-      type: "s",
-      value: 25
-    },
-    {
-      type: "u",
-      value: 18
-    },
-    {
-      type: "f",
-      value: 15
-    },
-    {
-      type: "t",
-      value: 10
-    },
-    {
-      type: "j",
-      value: 50
-    }
-  ];
+  const [error, setError] = useState(null);
+  const [isLoaded, setIsLoaded] = useState(false);
+  const [items, setItems] = useState([]);
+
+  useEffect(() => {
+    fetch("https://covid-bradley.s3.eu-west-2.amazonaws.com/crypto.json")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          setIsLoaded(true);
+          setItems(result);
+        },
+        (error) => {
+          setIsLoaded(true);
+          setError(error);
+        }
+      )
+  }, [])
+
+  if (error) {
+      return <div>Error: {error.message}</div>;
+    }  
+    if (!isLoaded) {
+      return <div>Loading...</div>;
+    }  
+
+
+    const dataObj = items.map(value => {
+        return {
+        name: value.asset,
+        value: parseFloat(value.free),
+        total: 12
+        }
+    })
+
   var config = {
     appendPadding: 10,
-    data: data,
-    angleField: "value",
-    colorField: "type",
+    data: dataObj,
+    angleField: "total",
+    colorField: "name",
     radius: 1,
     innerRadius: 0.64,
-    showTitle: false,
-    title: "fdsfsd",
     label: {
-      labelLine: false,
-      alias: "g",
-      title: "brad",
       type: "inner",
       offset: "-50%",
       style: { textAlign: "center" },
       autoRotate: false,
       content: "{value}"
     },
-    legend: false,
     statistic: {
       title: {
         customHtml: 'Total'
@@ -70,7 +73,7 @@ const PieChart = () => {
       { type: "pie-statistic-active" }
     ]
   };
-  return <Card> <Pie  {...config} /></Card>
+  return <Card> <h1>Assets</h1> <Pie  {...config} /></Card>
  ;
 };
 

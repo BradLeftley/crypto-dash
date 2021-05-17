@@ -6,6 +6,7 @@ import News from '../News';
 import BarGraph from '../PotentialBarGraph';
 import GrowthChart from '../GrowthChart';
 import BoxChart from '../BoxChart';
+import TreeMap from '../TreeMap';
 
 function App() {
   return (
@@ -39,6 +40,7 @@ function App() {
     <BoxChart />
    {/* <PieChart /> */}
    
+   <TreeMap />
   <News />
     </div>
   );

@@ -1,6 +1,6 @@
 import React from 'react';
 
-const useFetch = (url, options) => {
+const useFetch = (url, options, refetch) => {
     const [data, setData] = React.useState(null);
     const [error, setError] = React.useState(null);
     const [loading, setLoading] = React.useState(true);
@@ -16,11 +16,11 @@ const useFetch = (url, options) => {
         }
       };
       fetchData();
-    }, []);
+    }, [refetch]);
     return { loading, error, data  };
 };
 
-export const useFetchAll = (urls, options) => {
+export const useFetchAll = (urls, options, refetch) => {
   const [data, setData] = React.useState(null);
   const [error, setError] = React.useState(null);
   const [loading, setLoading] = React.useState(true);
@@ -45,7 +45,7 @@ export const useFetchAll = (urls, options) => {
       });
     };
     fetchData();
-  }, []);
+  }, [refetch]);
   return { loading, error, data  };
 
 }
