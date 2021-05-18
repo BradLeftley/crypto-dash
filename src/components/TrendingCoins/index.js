@@ -11,7 +11,7 @@ function TrendingCoins(props) {
   if (error) return <p>Error :(</p>;
     
   return (
-      <Card title='Trending Coins'>
+      <Card title='Trending Coins' className='trending-card'>
           
     <List
     itemLayout="horizontal"

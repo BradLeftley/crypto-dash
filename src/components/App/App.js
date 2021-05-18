@@ -1,6 +1,6 @@
 import {  Row, Col } from 'antd';
 import PriceCard from '../PriceCard'
-import './App.css';
+import './App.scss';
 import 'antd/dist/antd.css';
 import News from '../News';
 import BarGraph from '../PotentialBarGraph';
