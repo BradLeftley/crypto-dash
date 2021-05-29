@@ -2,17 +2,18 @@ import React, {useState} from 'react';
 import {  Card, Checkbox, Radio }from 'antd';
 import {useFetchAll} from '../../util/useFetch'
 import { Line } from '@ant-design/charts';
-import coinData from '../../util/coinData';
+import { defaultlocalStorageCoinData } from '../../util/coinData';
+import useLocalStorage from '../../util/useLocalStorage';
 
 
 
 
-const createEndpoints = (days) =>{
-    return coinData.map(coin=>`https://api.coingecko.com/api/v3/coins/${coin.id}/ohlc?vs_currency=usd&days=${days}`)
+const createEndpoints = (coins,days) =>{
+    return coins.map(coin=>`https://api.coingecko.com/api/v3/coins/${coin.id}/ohlc?vs_currency=usd&days=${days}`)
 }
 
 const createCheckBoxOptions = (data) => data.map(item => ({label: item.name, value: item.name}));
-const checkboxData = createCheckBoxOptions(coinData);
+
 
 const mapOHCLdata = (item, name, targetPrice) => {
   return item.map((data) => {
@@ -25,13 +26,15 @@ const mapOHCLdata = (item, name, targetPrice) => {
 
 function GrowthChart(props) {
   const [timePeriod, setTimePeriod] = useState("90");
-  const [itemSelected, setItemsSelected] = useState(checkboxData.map(item => item.value))
-  const { loading, error, data } = useFetchAll(createEndpoints(timePeriod),null,timePeriod);
-
+  const [coins, setCoins] = useLocalStorage("coinData", defaultlocalStorageCoinData);
+  const checkboxData = createCheckBoxOptions(coins);
+  const [itemSelected, setItemsSelected] = useState(checkboxData.map(item => item.value));
+  const { loading, error, data } = useFetchAll(createEndpoints(coins, timePeriod),null,timePeriod);
+  
   if (loading) return <p>loading...</p>;
   if (error) return <p>Error :(</p>;
   let testData = []
-  data.forEach((item, index) => testData.push(...mapOHCLdata(item, coinData[index].name, coinData[index].target[0])))
+  data.forEach((item, index) => testData.push(...mapOHCLdata(item, coins[index].name, coins[index].target[0])))
    
   
    const handleSizeChange = e => {
@@ -59,6 +62,7 @@ function GrowthChart(props) {
       },
     },
   };
+
   return (
    <Card title="Percentage to Target Price">
        <Radio.Group value={timePeriod} onChange={handleSizeChange}>

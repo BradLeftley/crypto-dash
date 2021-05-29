@@ -28,28 +28,15 @@ const EXCHANGE_RATES = gql`
 }
 `;
 
- // const { name } = props
-    // Will move to component
-
-    const coinsData = [
-        {name: 'Xrp', image: xrp, target: [10, 55]},
-        {name: 'Eos', image: eos, target: [94,354]},
-        {name: 'Zcash', image: zcash, target: [2544, 4000,6600]},
-        {name: 'Dash', image: dash, target: [3300,6700,28480]},
-        {name: 'Bitcoin Cash', image: bch, target: [10500,18312,76720]},
-        {name: 'Doge', image: doge, target: [1,10,50]},
-    ]
-
 
 
 function PriceCard(props) {
-    const { value, marketSymbol, name, coingecko } = props;
+    const { value, marketSymbol, name, coingecko, targets = [] } = props;
     const { loading, error, data } = coingecko?  // decides which api to use
     useFetch(`https://api.coingecko.com/api/v3/coins/${marketSymbol}`) 
     : useQuery(EXCHANGE_RATES,{
         variables: { marketSymbol },
       });
-     const coin = coinsData.filter(image => image.name === name)[0] || {};
     if (error) return <p>Error :(</p>;
         
     const percentChange = coingecko? data?.market_data.price_change_percentage_24h : data?.markets[0].ticker.percentChange;
@@ -57,7 +44,7 @@ function PriceCard(props) {
     const isNegative = percentChange?.toString().includes("-");
     return (
         <Card >
-            <img src={coin.image || ''} className="image" alt="Logo" />
+            <img src={data?.image?.small || ''} className="image" alt="Logo" />
             <Statistic
             title={name}
             value={percentChange}
@@ -71,7 +58,7 @@ function PriceCard(props) {
             <Divider style={{ margin: '17px 0' }}/>
             
             <Carousel >
-            {coin.target.map((target, index) => (
+            {targets.map((target, index) => (
                     <div>
                     <Statistic title="Price Target" value={target} prefix="$" precision={0} loading={loading} />
                     <GoalIndicator currentPrice={price} targetPrice={target} />
