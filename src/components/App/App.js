@@ -1,10 +1,11 @@
 import {  Row, Col } from 'antd';
 import PriceCard from '../PriceCard'
-import './App.css';
+import './App.scss';
 import 'antd/dist/antd.css';
 import News from '../News';
 import BarGraph from '../PotentialBarGraph';
 import GrowthChart from '../GrowthChart';
+import BoxChart from '../BoxChart';
 import TreeMap from '../TreeMap';
 import PriceCardList from '../PriceCardList';
 
@@ -18,6 +19,8 @@ function App() {
   
     <BarGraph />
     <GrowthChart/>
+   {/* <PieChart /> */}
+   
    <TreeMap />
   <News />
     </div>

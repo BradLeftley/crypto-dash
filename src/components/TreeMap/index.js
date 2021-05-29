@@ -42,6 +42,12 @@ const TreeMap = () => {
   var config = {
     data: data,
     colorField: 'name',
+    tooltip: {
+      formatter: (datum) => {
+        const value = new Intl.NumberFormat('en-US', { style: 'currency', currency: 'USD' }).format(datum.value)
+        return { name: datum.name, value: value};
+      },
+    }
   };
   return <Card title='Market Cap'><Treemap {...config} /></Card> ;
 };
