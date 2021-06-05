@@ -9,6 +9,7 @@
     "@testing-library/react": "^11.1.0",
     "@testing-library/user-event": "^12.1.10",
     "antd": "^4.15.4",
+    "eslint": "^7.28.0",
     "graphql": "^15.5.0",
     "install": "^0.13.0",
     "node-sass": "4.14.1",
@@ -36,5 +37,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "prettier": "2.3.1"
   }
 }
