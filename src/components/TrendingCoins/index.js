@@ -1,13 +1,13 @@
 import React from "react";
 import { Card } from "antd";
 import useFetch from "../../util/useFetch";
-import { List, Avatar } from "antd";
+import { List, Avatar, Spin } from "antd";
 
 function TrendingCoins(props) {
   const { loading, error, data } = useFetch(
     "https://api.coingecko.com/api/v3/search/trending"
   );
-  if (loading) return <p>loading...</p>;
+  if (loading) return <Spin />;
   if (error) return <p>Error :(</p>;
 
   return (

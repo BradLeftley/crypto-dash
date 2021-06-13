@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Radio, Checkbox } from "antd";
+import { Card, Radio, Checkbox, Spin } from "antd";
 import useFetch from "../../util/useFetch";
 import { getCoinsGraphData } from "../../util/coinData";
 import BarGraph from "./BarGraph";
@@ -28,7 +28,7 @@ function PotentialBarGraph(props) {
       coins
     ).toString()}`
   );
-  if (loading) return <p>loading...</p>;
+  if (loading) return <Spin />;
   if (error) return <p>Error :(</p>;
 
   let filteredData = [];

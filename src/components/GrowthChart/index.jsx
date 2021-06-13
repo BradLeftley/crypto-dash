@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { Card, Checkbox, Radio } from "antd";
+import { Card, Checkbox, Radio, Spin } from "antd";
 import { useFetchAll } from "../../util/useFetch";
 import { Line } from "@ant-design/charts";
 import { defaultlocalStorageCoinData } from "../../util/coinData";
@@ -44,7 +44,7 @@ function GrowthChart(props) {
     timePeriod
   );
 
-  if (loading) return <p>loading...</p>;
+  if (loading) return <Spin />;
   if (error) return <p>Error :(</p>;
   let testData = [];
   data.forEach((item, index) =>

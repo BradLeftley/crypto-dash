@@ -1,5 +1,5 @@
 import { Card } from "antd";
-import { List, Avatar } from "antd";
+import { List, Avatar, Spin } from "antd";
 import React, { useEffect, useState } from "react";
 
 function BradleyAssets(props) {
@@ -26,7 +26,7 @@ function BradleyAssets(props) {
     return <div>Error: {error.message}</div>;
   }
   if (!isLoaded) {
-    return <div>Loading...</div>;
+    return <Spin />;
   }
 
   const gridStyle = {
