@@ -7,6 +7,7 @@ import {
   Modal,
   Select,
   InputNumber,
+  Spin,
   Input,
   Radio,
 } from "antd";
@@ -53,7 +54,7 @@ function PriceCardList() {
     `https://api.coingecko.com/api/v3/coins/list`
   );
   const [form] = Form.useForm();
-  if (loading) return <p>loading :(</p>;
+  if (loading) return <Spin />;
   const showModal = () => {
     setIsModalVisible(true);
   };
