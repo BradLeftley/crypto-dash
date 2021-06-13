@@ -111,7 +111,7 @@ function PriceCardList() {
         onClick={showModal}
       />
       <Modal
-        title="Basic Modal"
+        title="Add Crypto"
         visible={isModalVisible}
         onOk={handleOk}
         onCancel={handleCancel}
