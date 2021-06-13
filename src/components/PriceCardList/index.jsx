@@ -29,7 +29,9 @@ const layout = {
 const createCoinsSelection = (data) => {
   return data.map((item) => <Option value={item.id}>{item.name}</Option>);
 };
-
+const createRemoveSelection = (coins) => {
+  return coins.map((item) => <Option value={item.id}>{item.name}</Option>);
+};
 const createPriceCard = (data) => {
   return data.map((item) => (
     <Col xs={16} sm={12} md={8} lg={8} xl={4}>
@@ -48,8 +50,9 @@ function PriceCardList() {
     "coinData",
     defaultlocalStorageCoinData
   );
-  const [isModalVisible, setIsModalVisible, isRemoveModalVisible] =
+  const [isModalVisible, setIsModalVisible] =
     useState(false);
+  const [ isRemoveModalVisible, setIsRemoveVisible] = useState(false);
   const { loading, error, data } = useFetch(
     `https://api.coingecko.com/api/v3/coins/list`
   );
@@ -57,6 +60,9 @@ function PriceCardList() {
   if (loading) return <Spin />;
   const showModal = () => {
     setIsModalVisible(true);
+  };
+  const showRemoveModal = () => {
+    setIsRemoveVisible(true)
   };
 
   const handleOk = () => {
@@ -87,8 +93,13 @@ function PriceCardList() {
   const handleCancel = () => {
     setIsModalVisible(false);
   };
+  const handleIsRemoveCancel = () => {
+    setIsRemoveVisible(false);
+  }
+  
 
   const selectFields = createCoinsSelection(data);
+  const removeFeilds = createRemoveSelection(coins);
   console.log(coins);
   return (
     <>
@@ -108,7 +119,7 @@ function PriceCardList() {
         shape="circle"
         icon={<MinusOutlined />}
         size="Large"
-        onClick={showModal}
+        onClick={showRemoveModal}
       />
       <Modal
         title="Add Crypto"
@@ -149,6 +160,39 @@ function PriceCardList() {
           </Form.Item>
           <Form.Item name="target3" label="target 3">
             <InputNumber defaultValue={0} />
+          </Form.Item>
+        </Form>
+      </Modal>
+      <Modal
+        title="Remove crypto"
+        visible={isRemoveModalVisible}
+        onOk={handleOk}
+        onCancel={handleIsRemoveCancel}
+      >
+        <Form
+          form={form}
+          layout="vertical"
+          name="form_in_modal"
+          initialValues={{ modifier: "public" }}
+        >
+          <Form.Item
+            name="coinId"
+            label="Coin Name"
+            rules={[
+              {
+                required: true,
+                message: "Please input the title of collection!",
+              },
+            ]}
+          >
+            <Select
+              showSearch
+              optionFilterProp="children"
+              placeholder="search..."
+              allowClear
+            >
+              {removeFeilds}
+            </Select>
           </Form.Item>
         </Form>
       </Modal>
