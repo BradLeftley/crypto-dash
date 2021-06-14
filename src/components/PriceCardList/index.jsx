@@ -96,6 +96,16 @@ function PriceCardList() {
   const handleIsRemoveCancel = () => {
     setIsRemoveVisible(false);
   }
+  const handleOkayRemove = () => {
+    form
+          .validateFields()
+          .then((values) => {
+           const daCoins = coins.filter(v => v.id !== values.coinId)
+           setCoins(daCoins)
+
+            form.resetFields();
+          })
+  }
   
 
   const selectFields = createCoinsSelection(data);
@@ -166,7 +176,7 @@ function PriceCardList() {
       <Modal
         title="Remove crypto"
         visible={isRemoveModalVisible}
-        onOk={handleOk}
+        onOk={handleOkayRemove}
         onCancel={handleIsRemoveCancel}
       >
         <Form
