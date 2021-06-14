@@ -25,7 +25,8 @@ function News() {
           ></iframe>
         </Col>
         <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
-          <TrendingCoins />
+          {/* <TrendingCoins /> */}
+          <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index" />
         </Col>
       </Row>
     </div>
