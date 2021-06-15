@@ -5,7 +5,7 @@ import BlockchainBacker from "../BlockchainBacker";
 import BradleyAssets from "../BradleyAssets";
 const { Meta } = Card;
 import TrendingCoins from "../TrendingCoins";
-
+import FearDial from "../FearDial"
 function News() {
   return (
     <div className="container">
@@ -26,7 +26,8 @@ function News() {
         </Col>
         <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
           {/* <TrendingCoins /> */}
-          <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index" />
+          <FearDial />
+          {/* <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index" /> */}
         </Col>
       </Row>
     </div>

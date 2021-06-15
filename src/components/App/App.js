@@ -8,6 +8,8 @@ import GrowthChart from "../GrowthChart";
 import BoxChart from "../BoxChart";
 import TreeMap from "../TreeMap";
 import PriceCardList from "../PriceCardList";
+import { Layout, Menu, Breadcrumb } from 'antd';
+const { Header, Content, Footer, Sider } = Layout;
 
 function App() {
   return (
@@ -16,12 +18,9 @@ function App() {
         <h1>Cypto Dashboard</h1>
       </div>
       <PriceCardList />
-
-      <BarGraph />
-      <GrowthChart />
-      {/* <PieChart /> */}
-
-      <TreeMap />
+        <Content style={{ padding: '10px 50px' }}><BarGraph /></Content>
+        <Content style={{ padding: '10px 50px' }}><GrowthChart /></Content>
+        <Content style={{ padding: '10px 50px' }}><TreeMap /></Content>
       <News />
     </div>
   );
