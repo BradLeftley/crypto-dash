@@ -20,7 +20,7 @@ function News() {
             allowtransparency="true"
             frameborder="0"
             src="https://cryptopanic.com/widgets/news/?bg_color=FFFFFF&amp;font_family=sans&amp;header_bg_color=30343B&amp;header_text_color=FFFFFF&amp;link_color=0091C2&amp;news_feed=recent&amp;text_color=333333&amp;title=Latest%20News"
-            height="350px"
+            height="100%"
           ></iframe>
         </Col>
         <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>

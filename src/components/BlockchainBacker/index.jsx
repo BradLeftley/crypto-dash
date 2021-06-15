@@ -9,7 +9,7 @@ function BlockchainBacker(props) {
           screenName: "BCBacker",
         }}
         options={{
-          height: "400",
+          height: "500",
         }}
       />
     </div>
