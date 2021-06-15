@@ -8,8 +8,7 @@ import TrendingCoins from "../TrendingCoins";
 import FearDial from "../FearDial"
 function News() {
   return (
-    <div className="container">
-      <h1>News</h1>
+    <>
       <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 16]}>
         <Col className="gutter-row" xs={16} sm={12} md={8} lg={8} xl={6}>
           <BlockchainBacker />
@@ -25,12 +24,13 @@ function News() {
           ></iframe>
         </Col>
         <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
-          {/* <TrendingCoins /> */}
+          <TrendingCoins />
+        </Col>
+        <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
           <FearDial />
-          {/* <img src="https://alternative.me/crypto/fear-and-greed-index.png" alt="Latest Crypto Fear & Greed Index" /> */}
         </Col>
       </Row>
-    </div>
+    </>
   );
 }
 

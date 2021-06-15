@@ -21,7 +21,8 @@ function App() {
         <Content style={{ padding: '10px 50px' }}><BarGraph /></Content>
         <Content style={{ padding: '10px 50px' }}><GrowthChart /></Content>
         <Content style={{ padding: '10px 50px' }}><TreeMap /></Content>
-      <News />
+        <Content style={{ padding: '10px 50px' }}><News /></Content>
+      
     </div>
   );
 }
