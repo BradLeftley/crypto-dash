@@ -2,12 +2,13 @@ import React from "react";
 import { Card } from "antd";
 import useFetch from "../../util/useFetch";
 import { Stock } from "@ant-design/charts";
+import { Spin } from 'antd';
 
 function BoxChart(props) {
   const { loading, error, data } = useFetch(
     "https://api.binance.com/api/v3/klines?symbol=XRPBUSD&interval=1w&limit=7"
   );
-  if (loading) return <p>loading...</p>;
+  if (loading) return <Spin />;
   if (error) return <p>Error :(</p>;
 
   let values = [];

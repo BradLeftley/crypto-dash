@@ -17,12 +17,12 @@ function App() {
       <div className="site-statistic-demo-card">
         <h1>Cypto Dashboard</h1>
       </div>
-      <PriceCardList />
+      
+      <Content style={{ padding: '10px 50px' }}><PriceCardList /></Content>
         <Content style={{ padding: '10px 50px' }}><BarGraph /></Content>
         <Content style={{ padding: '10px 50px' }}><GrowthChart /></Content>
         <Content style={{ padding: '10px 50px' }}><TreeMap /></Content>
         <Content style={{ padding: '10px 50px' }}><News /></Content>
-      
     </div>
   );
 }
