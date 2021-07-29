@@ -10,7 +10,7 @@ function News() {
   return (
     <>
       <Row gutter={[{ xs: 8, sm: 16, md: 24, lg: 32 }, 16]}>
-        <Col className="gutter-row" xs={16} sm={12} md={8} lg={8} xl={6}>
+        <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
           <BlockchainBacker />
         </Col>
         <Col className="gutter-row" xs={24} sm={12} md={8} lg={8} xl={6}>
