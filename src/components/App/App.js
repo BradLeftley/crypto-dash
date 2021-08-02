@@ -15,7 +15,7 @@ function App() {
   return (
     <div className="App">
       <div className="site-statistic-demo-card">
-        <h1>Cypto Dashboard</h1>
+        <h1>Cypto Dash</h1>
       </div>
       
       <Content style={{ padding: '10px 50px' }}><PriceCardList /></Content>
